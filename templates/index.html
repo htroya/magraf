@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Acciones</title>
+    <!-- Declaración del tipo de documento -->
+    <meta charset="UTF-8"> <!-- Establece la codificación de caracteres como UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Configura la escala para dispositivos móviles -->
+    <title>Consulta de Acciones</title> <!-- Título de la página -->
 </head>
 <body>
-<h1>Consulta de Acciones</h1>
-<form method="POST">
-    <label for="ticker">Ticker de la acción:</label>
-    <input type="text" id="ticker" name="ticker" required>
-    <button type="submit">Consultar</button>
+<h1>Consulta de Acciones</h1> <!-- Encabezado principal de la página -->
+
+<!-- Formulario para ingresar el ticker de la acción -->
+<form method="POST"> <!-- El formulario envía datos usando el método POST -->
+    <label for="ticker">Ticker:</label> <!-- Etiqueta para el campo de entrada del ticker -->
+    <input type="text" id="ticker" name="ticker" required> <!-- Campo de entrada de texto para el ticker, es obligatorio -->
+    <button type="submit">Consultar</button> <!-- Botón para enviar el formulario -->
 </form>
 
+<!-- Verifica si se ha generado un gráfico y lo muestra -->
 {% if graph_html %}
-<h2>Gráfico de Precios</h2>
-<div>
-    {{ graph_html|safe }}
-</div>
+<h2>Gráfico</h2> <!-- Subencabezado para el gráfico -->
+{{ graph_html|safe }} <!-- Inserta el gráfico generado, asegurando que el HTML sea interpretado correctamente -->
 {% endif %}
 </body>
 </html>
+
