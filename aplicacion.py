@@ -1,25 +1,23 @@
-import pandas as pd
+from flask import Flask, render_template, request
 import yfinance as yf
-from datetime import date, timedelta
-from dateutil.relativedelta import relativedelta
 import plotly.express as px
+import pandas as pd
 
-ticker='AAPL'
-years_analysis=20
+# Inicializa la aplicación Flask
+app = Flask(__name__)
 
-fecha_fin=date.today()
-fecha_inicio = fecha_fin - relativedelta(years=years_analysis)
+# Define la ruta principal para la aplicación
+@app.route("/", methods=["GET", "POST"])
+def index():
+    graph_html = None  # Inicializa la variable para almacenar el gráfico HTML
+    if request.method == "POST":  # Si se envía un formulario (método POST)
+        # Descarga datos históricos del ticker proporcionado
+        data = yf.download(request.form["ticker"], start=pd.Timestamp.today() - pd.DateOffset(years=20), progress=False)
+        # Crea un gráfico de líneas con los datos descargados
+        graph_html = px.line(data, x=data.index, y="Close").to_html(full_html=False)
+    # Renderiza la plantilla HTML y pasa el gráfico como parámetro
+    return render_template("index.html", graph_html=graph_html)
 
-fecha_fin=fecha_fin.strftime("%Y-%m-%d")
-fecha_inicio=fecha_inicio.strftime("%Y-%m-%d")
-
-data = yf.download(ticker,
-                   start=fecha_inicio,
-                   end=fecha_fin,
-                   progress=False)
-
-print(data)
-figure = px.line(data, x = data.index,
-                 y = "Close",
-                 title = "Analisis de precios de la empresa " + ticker)
-figure.show()
+# Ejecuta la aplicación en modo de depuración
+if __name__ == "__main__":
+    app.run(debug=True)

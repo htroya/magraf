@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Acciones</title>
+</head>
+<body>
+<h1>Consulta de Acciones</h1>
+<form method="POST">
+    <label for="ticker">Ticker de la acción:</label>
+    <input type="text" id="ticker" name="ticker" required>
+    <button type="submit">Consultar</button>
+</form>
+
+{% if graph_html %}
+<h2>Gráfico de Precios</h2>
+<div>
+    {{ graph_html|safe }}
+</div>
+{% endif %}
+</body>
+</html>
